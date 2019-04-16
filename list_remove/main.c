@@ -25,7 +25,7 @@ void	print_list(t_list *lst)
 	}
 }
 
-int ascending(int a, int b)
+int ascending(void *a, void * b)
 {
 	return (a != b);
 }
@@ -45,8 +45,9 @@ int main()
 	second->next = last;
 	last->data = 36;
 	last->next = NULL;
-//	print_list(first);
-	ft_list_remove_if(&first, "8", &ascending);
+	print_list(first);
+	ft_list_remove_if(&first, (void *)8, &ascending);
+	printf("%p\n", first);
 	print_list(first);
 	return (0);
 }
