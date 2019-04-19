@@ -18,5 +18,5 @@
     int           x;
     int           y;
   }               t_point;
-# define ELEM (tab, x, y) (tab)[y][(x)*2]
+# define ELEM(tab, x, y) (tab)[(y)][(x)*2]
 #endif

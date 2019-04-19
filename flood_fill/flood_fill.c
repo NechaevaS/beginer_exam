@@ -9,45 +9,39 @@
 /*   Updated: 2019/04/15 17:35:11 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "flood_fill.h"
+
+void  fill(char **tab, t_point size, t_point begin, char c)
+{
+	t_point new;
+
+	if(begin.x >= size.x || begin.y >= size.y)
+		return ;
+	if (ELEM(tab, begin.x, begin.y) != c)
+		return ;
+
+	ELEM(tab, begin.x, begin.y) = 'F';
+
+	new.x = begin.x + 1;
+	new.y = begin.y;
+	fill(tab, size, new, c);	
+	
+	new.x = begin.x - 1;
+	new.y = begin.y;
+	fill(tab, size, new, c);	
+	
+	new.x = begin.x;
+	new.y = begin.y + 1;
+	fill(tab, size, new, c);	
+	
+	new.x = begin.x;
+	new.y = begin.y - 1;
+	fill(tab, size, new, c);	
+
+}
 
 void  flood_fill(char **tab, t_point size, t_point begin)
 {
-	char c;
-	
-	c = ELEM(tab, begin.x, begin.y);
-	ELEM(tab, begin.x, begin.y) = 'F';
-	if(begin.x > size.x || begin.y > size.y)
-		exit;
-	if(ELEM(tab, begin.x + 1, begin.y) == c)
-	   flood_fill(tab,size,begin)	
-
-
-	i = begin.y;
-	while (i >= size.y && tab[i][j] == c)
-	{
-		j = begin.x;	
-		while (j >= size.x && tab[i][j] == c)
-		{
-			if(tab[i][j] == c)
-				tab[i][j] = 'F';
-			j++;
-		}
-		i++;
-	}
-	i = begin.y;
-	while (i >= 0 && tab[i][j] == c)
-	{
-		j = begin.x;	
-		while (j > 0 && tab[i][j] == c)
-		{
-			if(tab[i][j] == c)
-				tab[i][j] = 'F';
-			j--;
-		}
-		i--;
-	}
-
+	fill(tab, size, begin, ELEM(tab, begin.x, begin.y));
 }
 

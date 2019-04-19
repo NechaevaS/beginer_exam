@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include <unistd.h>
+#include <string.h>
 #include "flood_fill.h"
 void  flood_fill(char **tab, t_point size, t_point begin);
 void print(char **arr, t_point size)
@@ -19,7 +20,7 @@ void print(char **arr, t_point size)
 	i = 0;
     while (i < size.y)
     {
-            write(1, arr[i], size.x);
+            write(1, arr[i], size.x * 2 - 1);
             write(1, "\n", 1);
             i++;
     }
@@ -27,18 +28,16 @@ void print(char **arr, t_point size)
 
 int main(void)
 {
-//	char **area;
 	t_point size = {8, 5};
-	t_point begin = {2, 2};
+	t_point begin = {5, 4};
 	char *zone[] = {
-		"1 1 1 1 1 1 1 1",
-		"1 0 0 0 1 0 0 1",
-		"1 0 0 1 0 0 0 1",
-		"1 0 1 1 0 0 0 1",
-		"1 1 1 0 0 0 0 1",
+		strdup("1 1 1 1 1 1 1 1"),
+		strdup("1 0 0 0 1 0 0 1"),
+		strdup("1 0 0 1 0 0 0 1"),
+		strdup("1 0 1 1 0 0 0 1"),
+		strdup("1 1 1 0 0 0 0 1"),
 	};
 
-//	*area = zone;
 	print(zone, size);
 	flood_fill(zone, size, begin);
 	write(1, "\n", 1);
