@@ -3,87 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   rev_wstr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: exam <marvin@42.fr>                        +#+  +:+       +#+        */
+/*   By: snechaev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/09 11:36:08 by exam              #+#    #+#             */
-/*   Updated: 2019/04/09 13:55:07 by snechaev         ###   ########.fr       */
+/*   Created: 2019/05/16 16:17:26 by snechaev          #+#    #+#             */
+/*   Updated: 2019/05/16 17:37:00 by snechaev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+
+int    ft_iswsps(char c)
+{
+    return (c == ' ' || c == '\t');
+}
+
+int count_word(char *str)
+{
+    int count;
+    int i;
+    
+    i = 0;
+    count = 0;
+    while( str[i] != '\0')
+    {
+        if (!ft_iswsps(str[i]) && (i == 0 || ft_iswsps(str[i - 1])))
+            count++;
+        i++;
+    }
+    return (count);
+}
+
 int ft_strlen(char *str)
 {
-	int i = 0;
-	while (str[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+    int i;
+    
+    i = 0;
+    while (str[i] != '\0')
+    {
+        i++;
+    }
+    return (i);
 }
-int count_words(char *str)
+
+int    main(int argc, char **argv)
 {
-	int i;
-	int count;
-
-	count = 0;
-	i = 0;
-		while (str[i] != '\0')
-	{
-		if (str[i] != ' ' && (str[i - 1] == ' ' || i == 0))
-			count++;
-		i++;
-	}
-	return (count);
-
-}
-int	main(int argc, char **argv)
-{
-	int i;
-	int j;
-	int n;
-	char *str;
-	char **words;
-
-
-	str = argv[1];
-	if (argc == 2)
-	{
-		words = (char **)malloc(sizeof(char *) * count_words(argv[1]));
-		i = 0;
-		j = 0;
-		n = 0;
-		while (str[i] != '\0')
-		{
-			if (str[i] != ' ' && (str[i - 1] == ' ' || i == 0))
-			{
-				words[n] = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
-				j = 0;
-				while (str[i] != ' ' && str[i] != '\0')
-				{
-					words[n][j] = str[i];
-					i++;
-					j++;
-				}
-				words[n][j] = '\0';
-				n++;
-			} 
-			i++;
-		}
-		n--;
-		while (n >= 0)
-		{
-			j = 0;
-			while (words[n][j] != '\0')
-			{
-				write (1, &words[n][j], 1);
-				j++;
-			}
-			if (n != 0)
-				write(1, " ", 1);
-			n--;
-		}
-	}
-	write(1, "\n", 1);
-	return (0);
+    int i;
+    int j;
+    int k;
+    char *str;
+    char **rev;
+    
+    i = 0;
+    j = 0;
+    if (argc == 2)
+    {
+        str = argv[1];
+        rev = (char **)malloc(sizeof(char *) * (count_word(str) + 1));
+        while (str[i] != '\0')
+        {
+            if(!ft_iswsps(str[i]) && (i == 0 || ft_iswsps(str[i - 1])))
+            {
+                rev[j] = (char *)malloc(sizeof(char) * ft_strlen(str) + 1);
+                k = 0;
+                while(!ft_iswsps(str[i]) && str[i] != '\0')
+                {
+                    rev[j][k] = str[i];
+                    i++;
+                    k++;
+                }
+                rev[j][k] = '\0';
+                j++;
+                if (str[i] == '\0')
+                    break;
+            }
+            i++;
+        }
+        rev[j] = NULL;
+        j--;
+        while(j >= 0)
+        {
+            k = 0;
+            while(rev[j][k] != '\0')
+            {
+                write(1, &rev[j][k], 1);
+                k++;
+            }
+            if (j != 0)
+                write(1, " ", 1);
+            j--;
+        }
+    }
+    write(1, "\n", 1);
+    return (0);
 }
