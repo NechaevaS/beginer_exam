@@ -3,45 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   flood_fill.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: snechaev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: exam <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/15 14:22:48 by snechaev          #+#    #+#             */
-/*   Updated: 2019/04/15 17:35:11 by snechaev         ###   ########.fr       */
+/*   Created: 2019/07/09 09:42:14 by exam              #+#    #+#             */
+/*   Updated: 2019/07/09 12:39:35 by exam             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "flood_fill.h"
 
 void  fill(char **tab, t_point size, t_point begin, char c)
 {
-	t_point new;
+    int x;
+    int y;
+    t_point new;
 
-	if(begin.x >= size.x || begin.y >= size.y)
+    y = begin.y;
+    x = begin.x;
+    if (x >= size.x || y >= size.y || x < 0 || y < 0)
+        return ;
+	if(tab[y][x] != c)
 		return ;
-	if (ELEM(tab, begin.x, begin.y) != c)
-		return ;
+    tab[y][x] = 'F';
+		
+	new.x = x + 1;
+	new.y = y;
+	fill(tab, size, new, c);
 
-	ELEM(tab, begin.x, begin.y) = 'F';
+	new.x = x - 1;
+	new.y = y;
+	fill(tab, size, new, c);
 
-	new.x = begin.x + 1;
-	new.y = begin.y;
-	fill(tab, size, new, c);	
-	
-	new.x = begin.x - 1;
-	new.y = begin.y;
-	fill(tab, size, new, c);	
-	
-	new.x = begin.x;
-	new.y = begin.y + 1;
-	fill(tab, size, new, c);	
-	
-	new.x = begin.x;
-	new.y = begin.y - 1;
-	fill(tab, size, new, c);	
+	new.x = x;
+	new.y = y + 1;
+	fill(tab, size, new, c);
 
+	new.x = x;
+	new.y = y - 1;
+	fill(tab, size, new, c);
 }
 
-void  flood_fill(char **tab, t_point size, t_point begin)
+ void  flood_fill(char **tab, t_point size, t_point begin)
 {
-	fill(tab, size, begin, ELEM(tab, begin.x, begin.y));
-}
+	char symb;
 
+	symb = tab[begin.y][begin.x];
+	fill(tab, size, begin, symb);
+}
